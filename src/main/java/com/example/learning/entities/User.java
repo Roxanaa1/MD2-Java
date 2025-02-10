@@ -1,12 +1,16 @@
 package com.example.learning.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //este util sa punem si proprietatea name, la @Entity, atunci cand vrem sa construim query-uri si in acele query-uri sa facem
 //"referinta" catre acea tabela/entitate
+@Getter
+@Setter
 @Entity(name = "user")
 @Table(name = "user", schema = "public")
 public class User {
@@ -42,65 +46,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "application_id", nullable = false))
     private List<Application> applications = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            fetch = FetchType.LAZY,
+            orphanRemoval = false
+            , mappedBy = "user")
+    private List<Car> cars = new ArrayList<>();
 
     public void addBook(Book book) {
         this.books.add(book);
         book.setUser(this);
-    }
-
-    public List<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(List<Application> applications) {
-        this.applications = applications;
     }
 
     public void addApplication(Application application) {
@@ -108,4 +62,8 @@ public class User {
         application.addUser(this);
     }
 
+    public void addCar(Car car) {
+        this.cars.add(car);
+        car.setUser(this);
+    }
 }

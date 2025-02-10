@@ -1,8 +1,14 @@
 package com.example.learning.dto;
 
+import com.example.learning.entities.Car;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class UserDTO {
     private Long id;
     private String userName;
@@ -12,60 +18,6 @@ public class UserDTO {
 
     private List<BookDTO> books;
     private List<ApplicationDTO> applications;
+    private List<CarDTO> cars;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public List<BookDTO> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<BookDTO> books) {
-        this.books = books;
-    }
-
-    public List<ApplicationDTO> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(List<ApplicationDTO> applications) {
-        this.applications = applications;
-    }
 }

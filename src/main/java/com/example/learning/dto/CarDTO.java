@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookDTO {
+public class CarDTO {
     private Long id;
-    private String name;
-    private String author;
-
+    private String brand;
+    private String model;
+    private String color;
 }

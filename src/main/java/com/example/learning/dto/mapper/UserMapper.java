@@ -2,6 +2,7 @@ package com.example.learning.dto.mapper;
 
 import com.example.learning.dto.UserDTO;
 import com.example.learning.entities.Application;
+import com.example.learning.entities.Car;
 import com.example.learning.entities.User;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,11 @@ public class UserMapper {
                 .map(ApplicationMapper::applicationDTO2Application)
                 .toList();
         user.setApplications(applications);
+        List<Car> cars = userDTO.getCars().stream()
+                .map(CarMapper::carDtoToCarEntity)
+                .toList();
+        user.setCars(cars);
+
         return user;
     }
 
@@ -40,7 +46,9 @@ public class UserMapper {
         userDTO.setApplications(user.getApplications().stream()
                 .map(ApplicationMapper::application2ApplicationDTO)
                 .toList());
-        //ideal: trebuia sa fie si books aici
+        userDTO.setCars(user.getCars().stream()
+                .map(CarMapper::carEntityToCarDto)
+                .toList());
         return userDTO;
     }
 }

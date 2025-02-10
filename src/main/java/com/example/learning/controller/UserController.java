@@ -43,6 +43,26 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDTO(createdUser));
     }
 
+    /*
+    create parent with children (1)
+    create parent without children (1
+    * */
+    @PostMapping("/with-cars")
+    public ResponseEntity<?> createWithCars(@RequestBody UserDTO userDTO) {
+        User userEntity = userMapper.toEntity(userDTO);
+        User createdUser = userService.create(userEntity);
+        UserDTO createdUserDTO = userMapper.toDTO(createdUser);
+        return ResponseEntity.ok(createdUserDTO);
+    }
+    //add existing child to parent (3)
+
+    @PostMapping("/with-cars-child/{carId}")
+    public ResponseEntity<?> createWithCarsExistingChild(@RequestBody UserDTO userDTO, @PathVariable Long carId) {
+
+        return ResponseEntity.ok();
+    }
+
+
     //returnam un user dupa id
     //id-ul il pun in path/cale, pentru ca un GET nu are request body (doar response body)
     @GetMapping("/{userId}")
