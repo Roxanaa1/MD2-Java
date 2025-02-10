@@ -57,7 +57,7 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId){
         userService.deleteUser(userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();// status 200 ok(un raspuns fara corp)
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO,@PathVariable Long id ){
@@ -67,4 +67,6 @@ public class UserController {
 
         return ResponseEntity.ok(updatedUserDTO);
     }
+
+
 }

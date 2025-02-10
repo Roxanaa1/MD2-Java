@@ -20,7 +20,6 @@ public class UserMapper {
         return user;
     }
 
-
     public  UserDTO toDTO(User user) {
         if (user == null) {
             return null;

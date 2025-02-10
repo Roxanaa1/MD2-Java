@@ -1,11 +1,16 @@
 package com.example.learning.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDTO {
     private Long id;
     private String userName;
     private String firstName;
     private String lastName;
     private Integer age;
+
+    private List<BookDTO> books;
 
     public Long getId() {
         return id;

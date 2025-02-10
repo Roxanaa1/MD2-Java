@@ -2,6 +2,9 @@ package com.example.learning.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //este util sa punem si proprietatea name, la @Entity, atunci cand vrem sa construim query-uri si in acele query-uri sa facem
 //"referinta" catre acea tabela/entitate
 @Entity(name = "user")
@@ -24,6 +27,14 @@ public class User {
 
     @Column(name="AGE")
     private Integer age;
+    @OneToMany(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},
+            fetch = FetchType.EAGER,
+            orphanRemoval = false  //daca ar fi fost true-adica user ul nu mai are cartea ,o scot din lista ,este stearsa si din baza de date
+                    ,mappedBy = "user") //cum se numeste entitatea(campul)User in clasa Copil
+    //EAGER -DE FIECARE DATA ADUCE TOATE INFORMATIILE
+    //LAZY -NU ADUCE TOATE GEN SI CARTILE CAND CERI USER UL
+    //FOLOSIM MEREU LAZY DE LA PARINTE LA COPIL
+    private List<Book> books=new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -64,4 +75,14 @@ public class User {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+
 }
