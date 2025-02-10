@@ -2,7 +2,9 @@ package com.example.learning.dto.mapper;
 
 import com.example.learning.dto.BookDTO;
 import com.example.learning.entities.Book;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BookMapper {
     public static BookDTO book2BookDto(Book book) {
         BookDTO bookDTO = new BookDTO();

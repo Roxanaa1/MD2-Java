@@ -36,6 +36,13 @@ public class UserController {
         return ResponseEntity.ok(createdUserDTO);
     }
 
+    @PostMapping("/with-apps")
+    public ResponseEntity<?> createWithApplications(@RequestBody UserDTO userDTO) {
+        User userToCreate = userMapper.toEntity(userDTO);
+        User createdUser = userService.create(userToCreate);
+        return ResponseEntity.ok(userMapper.toDTO(createdUser));
+    }
+
     //returnam un user dupa id
     //id-ul il pun in path/cale, pentru ca un GET nu are request body (doar response body)
     @GetMapping("/{userId}")
@@ -48,21 +55,22 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<?> findAll() {
         List<User> users = userService.findAll();
-        List<UserDTO> foundUsersDTO=users.stream()
+        List<UserDTO> foundUsersDTO = users.stream()
                 .map(user -> userMapper.toDTO(user))
                 .toList();
         return ResponseEntity.ok(foundUsersDTO);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId){
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.ok().build();// status 200 ok(un raspuns fara corp)
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO,@PathVariable Long id ){
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
         User userEntity = userMapper.toEntity(userDTO);
-        User userUpdate=userService.updateUser(userEntity,id);
+        User userUpdate = userService.updateUser(userEntity, id);
         UserDTO updatedUserDTO = userMapper.toDTO(userUpdate);
 
         return ResponseEntity.ok(updatedUserDTO);

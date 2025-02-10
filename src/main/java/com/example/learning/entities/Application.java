@@ -1,21 +1,21 @@
 package com.example.learning.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-@Entity(name = "book")
-@Table(name = "BOOK")
-public class Book {
+import java.util.List;
+
+@Entity(name = "application")
+@Table(name = "APPLICATION")
+public class Application {
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "NAME")
     private String name;
-    @Column(name = "AUTHOR")
-    private String author;
-    @ManyToOne()
-    @JoinColumn(name = "user_id")//cheia secundara
-    private User user;
-
+    @ManyToMany(mappedBy = "applications", fetch = FetchType.EAGER)
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -33,18 +33,15 @@ public class Book {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public User getUser() {
-        return user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void addUser(User user) {
+        users.add(user);
     }
 }

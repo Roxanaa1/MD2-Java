@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController  //rest este un stil arhitectural
-//folosim forma de plural
+@RestController
 @RequestMapping("/books")
 public class BookController {
 

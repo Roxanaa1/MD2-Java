@@ -11,6 +11,7 @@ public class UserDTO {
     private Integer age;
 
     private List<BookDTO> books;
+    private List<ApplicationDTO> applications;
 
     public Long getId() {
         return id;
@@ -50,5 +51,21 @@ public class UserDTO {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public List<BookDTO> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<BookDTO> books) {
+        this.books = books;
+    }
+
+    public List<ApplicationDTO> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<ApplicationDTO> applications) {
+        this.applications = applications;
     }
 }
