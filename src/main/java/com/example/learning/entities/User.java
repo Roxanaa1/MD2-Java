@@ -48,7 +48,7 @@ public class User {
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
             fetch = FetchType.LAZY,
-            orphanRemoval = false
+            orphanRemoval = true
             , mappedBy = "user")
     private List<Car> cars = new ArrayList<>();
 

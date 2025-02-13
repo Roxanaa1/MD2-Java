@@ -3,6 +3,7 @@ package com.example.learning.controller;
 import com.example.learning.dto.CarDTO;
 import com.example.learning.dto.mapper.CarMapper;
 import com.example.learning.entities.Car;
+import com.example.learning.entities.User;
 import com.example.learning.service.CarService;
 import com.example.learning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,19 @@ public class CarController {
     public ResponseEntity<?> create(@PathVariable Long userId, @RequestBody CarDTO carDTO) {
         Car carToCreate = CarMapper.carDtoToCarEntity(carDTO);
         Car createdCar = carService.create(carToCreate, userId);
-        CarDTO createdCarDTO=CarMapper.carEntityToCarDto(createdCar);
+        CarDTO createdCarDTO = CarMapper.carEntityToCarDto(createdCar);
         return ResponseEntity.ok(createdCarDTO);
     }
+
+    // create child with parent id as param (4)
+
+    @PostMapping("/create-car/{userId}")
+    public ResponseEntity<?> createCarForUser(@PathVariable Long userId, @RequestBody CarDTO carDTO) {
+        Car carToCreate = CarMapper.carDtoToCarEntity(carDTO);
+        User user = userService.getById(userId);
+        user.addCar(carToCreate);
+        userService.updateUser(user, userId);
+        return ResponseEntity.ok(carDTO);
+    }
+
 }

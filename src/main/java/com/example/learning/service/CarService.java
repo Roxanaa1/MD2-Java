@@ -22,4 +22,8 @@ public class CarService {
         carRepository.save(carToCreate);
         return carToCreate;
     }
+    public Car getById(Long id){
+        return carRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+    }
 }

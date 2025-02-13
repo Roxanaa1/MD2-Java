@@ -1,8 +1,10 @@
 package com.example.learning.controller;
 
 import com.example.learning.dto.UserDTO;
+import com.example.learning.entities.Car;
 import com.example.learning.entities.User;
 import com.example.learning.dto.mapper.UserMapper;
+import com.example.learning.service.CarService;
 import com.example.learning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CarService carService;
 
     //cand cream date, folosim POST
     //nu mai este nevoie de "/create", pentru ca un POST reprezinta automat crearea unei noi entitati (ca principiu)
@@ -54,14 +58,16 @@ public class UserController {
         UserDTO createdUserDTO = userMapper.toDTO(createdUser);
         return ResponseEntity.ok(createdUserDTO);
     }
+
     //add existing child to parent (3)
-
-    @PostMapping("/with-cars-child/{carId}")
-    public ResponseEntity<?> createWithCarsExistingChild(@RequestBody UserDTO userDTO, @PathVariable Long carId) {
-
-        return ResponseEntity.ok();
+    @PostMapping("/add-car-to-user/{userId}/{carId}")
+    public ResponseEntity<?> addExistingCarToUser(@PathVariable Long userId, @PathVariable Long carId) {
+        User user = userService.getById(userId);
+        Car car = carService.getById(carId);
+        user.addCar(car);
+        userService.updateUser(user, userId);
+        return ResponseEntity.ok(userMapper.toDTO(user));
     }
-
 
     //returnam un user dupa id
     //id-ul il pun in path/cale, pentru ca un GET nu are request body (doar response body)
@@ -75,16 +81,8 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<?> findAll() {
         List<User> users = userService.findAll();
-        List<UserDTO> foundUsersDTO = users.stream()
-                .map(user -> userMapper.toDTO(user))
-                .toList();
+        List<UserDTO> foundUsersDTO = users.stream().map(user -> userMapper.toDTO(user)).toList();
         return ResponseEntity.ok(foundUsersDTO);
-    }
-
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok().build();// status 200 ok(un raspuns fara corp)
     }
 
     @PutMapping("/{id}")
@@ -96,5 +94,20 @@ public class UserController {
         return ResponseEntity.ok(updatedUserDTO);
     }
 
+    //delete parent should delete child (cascade type remove)
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId); // `CascadeType.REMOVE`
+        return ResponseEntity.ok().build();// status 200 ok(un raspuns fara corp)
+    }
+
+    //remove child from parent (test orphan removal)
+//    @DeleteMapping("/remove-car-from-user/{userId}/{carId}")
+//    public ResponseEntity<?> removeCarFromUser(@PathVariable Long userId, @PathVariable Long carId) {
+//        User user = userService.getById(userId);
+//        user.getCars().removeIf(car -> car.getId().equals(carId));
+//        userService.updateUser(user, userId);
+//        return ResponseEntity.ok(userMapper.toDTO(user));
+//    }
 
 }
